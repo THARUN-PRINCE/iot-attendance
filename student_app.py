@@ -1,3 +1,4 @@
+import json
 import firebase_admin
 from firebase_admin import credentials, db
 import requests
@@ -9,10 +10,11 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# Initialize Firebase Realtime Database
+# Initialize Firebase Realtime Database using Streamlit Secrets
 if not firebase_admin._apps:
   try:
-    cred = credentials.Certificate("firebase_credentials.json")
+    secret_dict = dict(st.secrets["firebase"])
+    cred = credentials.Certificate(secret_dict)
     firebase_admin.initialize_app(
         cred,
         {
